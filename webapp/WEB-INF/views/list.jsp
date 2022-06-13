@@ -30,11 +30,20 @@
 				<td>${phoneVo.company}</td>
 			</tr>
 			<tr>
-				<td><a href="">[수정]</a></td>
-				<td><a href="">[삭제]</a></td>
+				<td><a href="modifyForm?no=${phoneVo.personId}">[수정]</a></td>
+				<td><a href="delete/${phoneVo.personId}">[삭제]</a></td>
 			</tr>
 		</table>
+		
+		<br>
+		
 	</c:forEach>
+	
+	<br>
+	
+	<a href="/phonebook3/writeForm">추가 번호 등록</a>
+	
+	<br><br>
 
 </body>
 </html>
