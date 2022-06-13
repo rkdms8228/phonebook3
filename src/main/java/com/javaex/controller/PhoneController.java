@@ -1,6 +1,9 @@
 package com.javaex.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +24,23 @@ public class PhoneController {
 	
 	
 	//메소드-일반
+	//전화번호 리스트
+	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String list(Model model) {
+		
+		System.out.println("PhoneController>list()");
+		
+		//dao를 통해서 personlist(주소)를 가져온다
+		PhoneDao phoneDao = new PhoneDao();
+		List<PersonVo> personlist = phoneDao.getPersonList();
+		
+		//ds 데이터 보내기 --> request attribute에 넣는다
+		model.addAttribute("personlist", personlist);
+		
+		return "/WEB-INF/views/list.jsp";
+		
+	}
+	
 	//전화번호 등록
 	@RequestMapping(value="/write", method={RequestMethod.GET, RequestMethod.POST})
 	public String write(@RequestParam("name") String name,
