@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,76 @@ public class PhoneController {
 	
 	
 	//메소드-일반
+	//전화번호 수정폼
+	@RequestMapping(value="/modifyForm", method={RequestMethod.GET, RequestMethod.POST})
+	public String modifyForm(@RequestParam("no") int no, Model model) {
+		
+		System.out.println("PhoneController>modifyForm()");
+		
+		//dao(수정)
+		PhoneDao phoneDao = new PhoneDao();
+		PhoneVo phoneVo = phoneDao.getPerson(no);
+		System.out.println(phoneVo);
+		
+		model.addAttribute("phoneVo", phoneVo);
+		
+		return "/WEB-INF/views/modifyForm.jsp";
+		
+	}
+	
+	//전화번호 수정
+	@RequestMapping(value="/modify", method={RequestMethod.GET, RequestMethod.POST})
+	public String modify(@ModelAttribute PhoneVo phoneVo) {
+		
+		System.out.println("PhoneController>modify()");
+		
+		System.out.println(phoneVo);
+		
+		//dao로 저장하기
+		PhoneDao phoneDao = new PhoneDao();
+		int count = phoneDao.personUpdate(phoneVo);
+		System.out.println(count);
+		
+		return "redirect:/list";
+		
+	}
+	
+	//전화번호 삭제
+	@RequestMapping(value="/delete/{no}", method={RequestMethod.GET, RequestMethod.POST})
+	public String delete(@PathVariable("no") int num) {
+		
+		System.out.println("PhoneController>delete()");
+		
+		//파라미터 꺼내기
+		System.out.println(num);
+		
+		//dao로 처리하기(삭제)
+		PhoneDao phoneDao = new PhoneDao();
+		int count = phoneDao.personDelete(num);
+		System.out.println(count);
+		
+		return "redirect:/list";
+		
+	}
+	
+	//전화번호 삭제
+	@RequestMapping(value="/delete2", method={RequestMethod.GET, RequestMethod.POST})
+	public String delete2(@RequestParam("no") int no) {
+		
+		System.out.println("PhoneController>delete()");
+		
+		//파라미터 꺼내기
+		System.out.println(no);
+		
+		//dao로 처리하기(삭제)
+		PhoneDao phoneDao = new PhoneDao();
+		int count = phoneDao.personDelete(no);
+		System.out.println(count);
+		
+		return "redirect:/list";
+		
+	}
+	
 	//전화번호 리스트
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(Model model) {
@@ -42,6 +113,16 @@ public class PhoneController {
 		
 	}
 	
+	//전화번호 등록폼
+	@RequestMapping(value="/writeForm", method={RequestMethod.GET, RequestMethod.POST})
+	public String writeForm() {
+		
+		System.out.println("PhoneController>writeForm()");
+		
+		return "/WEB-INF/views/writeForm.jsp";
+		
+	}
+	
 	//전화번호 등록
 	@RequestMapping(value="/write", method={RequestMethod.GET, RequestMethod.POST})
 	public String write(@ModelAttribute PhoneVo phoneVo) {
@@ -49,7 +130,7 @@ public class PhoneController {
 		System.out.println("PhoneController>write()");
 		
 		
-		/* *** 디스페쳐 서블릿이 해주는 것들 ***
+		/* *** 디스페쳐 서블릿(DS)이 해주는 것들 ***
 		//파라미터 꺼내기
 		//System.out.println(name);
 		//System.out.println(hp);
@@ -66,7 +147,8 @@ public class PhoneController {
 		int count = phoneDao.personInsert(phoneVo);
 		System.out.println(count);
 		
-		return "redirect:http://localhost:8088/phonebook3/list";
+		return "redirect:/list";
+		//return "redirect:http://localhost:8088/phonebook3/list";
 		
 	}
 	
@@ -93,16 +175,6 @@ public class PhoneController {
 		System.out.println(count);
 		
 		return "redirect:http://localhost:8088/phonebook3/list";
-		
-	}
-	
-	//전화번호 등록폼
-	@RequestMapping(value="/writeForm", method={RequestMethod.GET, RequestMethod.POST})
-	public String writeForm() {
-		
-		System.out.println("PhoneController>writeForm()");
-		
-		return "/WEB-INF/views/writeForm.jsp";
 		
 	}
 	
