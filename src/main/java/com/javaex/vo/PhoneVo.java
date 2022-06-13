@@ -1,6 +1,6 @@
 package com.javaex.vo;
 
-public class PersonVo {
+public class PhoneVo {
 	
 	//필드
 	private int personId;
@@ -9,15 +9,15 @@ public class PersonVo {
 	private String company;
 	
 	//생성자
-	public PersonVo() {}
+	public PhoneVo() {}
 	
-	public PersonVo(String name, String hp, String company) {
+	public PhoneVo(String name, String hp, String company) {
 		this.name = name;
 		this.hp = hp;
 		this.company = company;
 	}
 	
-	public PersonVo(int personId, String name, String hp, String company) {
+	public PhoneVo(int personId, String name, String hp, String company) {
 		this.personId = personId;
 		this.name = name;
 		this.hp = hp;

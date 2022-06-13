@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,24 +15,26 @@
 	
 	<p>입력한 정보 내용입니다.</p>
 	
-	<table border="1">
-		<tr>
-			<td>이름(name)</td>
-			<td>김가은</td>
-		</tr>
-		<tr>
-			<td>핸드폰(hp)</td>
-			<td>010-8563-8228</td>
-		</tr>
-		<tr>
-			<td>회사(company)</td>
-			<td>02-8563-8228</td>
-		</tr>
-		<tr>
-			<td><a href="">[수정]</td>
-			<td><a href="">[삭제]</td>
-		</tr>
-	</table>
+	<c:forEach items="${requestScope.phoneList}" var="phoneVo">
+		<table border="1">
+			<tr>
+				<td>이름(name)</td>
+				<td>${phoneVo.name}</td>
+			</tr>
+			<tr>
+				<td>핸드폰(hp)</td>
+				<td>${phoneVo.hp}</td>
+			</tr>
+			<tr>
+				<td>회사(company)</td>
+				<td>${phoneVo.company}</td>
+			</tr>
+			<tr>
+				<td><a href="">[수정]</a></td>
+				<td><a href="">[삭제]</a></td>
+			</tr>
+		</table>
+	</c:forEach>
 
 </body>
 </html>

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javaex.vo.PersonVo;
+import com.javaex.vo.PhoneVo;
 
 public class PhoneDao {
 
@@ -57,7 +57,7 @@ public class PhoneDao {
 	}
 
 	// 사람 추가
-	public int personInsert(PersonVo personVo) {
+	public int personInsert(PhoneVo phoneVo) {
 
 		int count = 0;
 
@@ -73,9 +73,9 @@ public class PhoneDao {
 
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 
-			pstmt.setString(1, personVo.getName()); // ?(물음표) 중 1번째, 순서중요
-			pstmt.setString(2, personVo.getHp()); // ?(물음표) 중 2번째, 순서중요
-			pstmt.setString(3, personVo.getCompany()); // ?(물음표) 중 3번째, 순서중요
+			pstmt.setString(1, phoneVo.getName()); // ?(물음표) 중 1번째, 순서중요
+			pstmt.setString(2, phoneVo.getHp()); // ?(물음표) 중 2번째, 순서중요
+			pstmt.setString(3, phoneVo.getCompany()); // ?(물음표) 중 3번째, 순서중요
 
 			count = pstmt.executeUpdate(); // 쿼리문 실행
 
@@ -92,15 +92,15 @@ public class PhoneDao {
 
 	}
 
-	// 사람 리스트(검색안할때)
-	public List<PersonVo> getPersonList() {
+	//사람 리스트(검색 안 할 때)
+	public List<PhoneVo> getPersonList() {
 		return getPersonList("");
 	}
 
-	// 사람 리스트(검색할때)
-	public List<PersonVo> getPersonList(String keword) {
+	//사람 리스트(검색할 때)
+	public List<PhoneVo> getPersonList(String keword) {
 
-		List<PersonVo> personList = new ArrayList<PersonVo>();
+		List<PhoneVo> phoneList = new ArrayList<PhoneVo>();
 
 		getConnection();
 
@@ -136,8 +136,8 @@ public class PhoneDao {
 				String hp = rs.getString("hp");
 				String company = rs.getString("company");
 
-				PersonVo personVo = new PersonVo(personId, name, hp, company);
-				personList.add(personVo);
+				PhoneVo phoneVo = new PhoneVo(personId, name, hp, company);
+				phoneList.add(phoneVo);
 			}
 
 		} catch (SQLException e) {
@@ -146,12 +146,12 @@ public class PhoneDao {
 
 		close();
 
-		return personList;
+		return phoneList;
 
 	}
 
 	// 사람 수정
-	public int personUpdate(PersonVo personVo) {
+	public int personUpdate(PhoneVo phoneVo) {
 
 		int count = 0;
 
@@ -169,10 +169,10 @@ public class PhoneDao {
 
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 
-			pstmt.setString(1, personVo.getName()); // ?(물음표) 중 1번째, 순서중요
-			pstmt.setString(2, personVo.getHp()); // ?(물음표) 중 2번째, 순서중요
-			pstmt.setString(3, personVo.getCompany()); // ?(물음표) 중 3번째, 순서중요
-			pstmt.setInt(4, personVo.getPersonId()); // ?(물음표) 중 4번째, 순서중요
+			pstmt.setString(1, phoneVo.getName()); // ?(물음표) 중 1번째, 순서중요
+			pstmt.setString(2, phoneVo.getHp()); // ?(물음표) 중 2번째, 순서중요
+			pstmt.setString(3, phoneVo.getCompany()); // ?(물음표) 중 3번째, 순서중요
+			pstmt.setInt(4, phoneVo.getPersonId()); // ?(물음표) 중 4번째, 순서중요
 
 			count = pstmt.executeUpdate(); // 쿼리문 실행
 
@@ -221,9 +221,9 @@ public class PhoneDao {
 	}
 
 	// 1명 정보 가져오기
-	public PersonVo getPerson(int personId) {
+	public PhoneVo getPerson(int personId) {
 		
-		PersonVo personVo = null;
+		PhoneVo phoneVo = null;
 
 		this.getConnection();
 
@@ -254,7 +254,7 @@ public class PhoneDao {
 				String hp = rs.getString("hp");
 				String company = rs.getString("company");
 
-				personVo = new PersonVo(id, name, hp, company);
+				phoneVo = new PhoneVo(id, name, hp, company);
 			}
 
 		} catch (SQLException e) {
@@ -263,7 +263,7 @@ public class PhoneDao {
 
 		this.close();
 
-		return personVo;
+		return phoneVo;
 	}
 
 }
