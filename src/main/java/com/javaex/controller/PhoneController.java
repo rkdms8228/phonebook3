@@ -2,6 +2,7 @@ package com.javaex.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,14 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javaex.dao.PhoneDao;
+import com.javaex.service.PhoneService;
 import com.javaex.vo.PhoneVo;
 
 @Controller
 public class PhoneController {
 	
 	//필드
-	
+	@Autowired
+	private PhoneService phoneService; // = new PhoneDao(); (잦은 사용으로 공통으로 빼기)
 	
 	//생성자
 	
@@ -33,13 +35,13 @@ public class PhoneController {
 		System.out.println("PhoneController>modifyForm()");
 		
 		//dao(수정)
-		PhoneDao phoneDao = new PhoneDao();
-		PhoneVo phoneVo = phoneDao.getPerson(no);
+		//PhoneDao phoneDao = new PhoneDao();
+		PhoneVo phoneVo = phoneService.getPerson(no);
 		System.out.println(phoneVo);
 		
 		model.addAttribute("phoneVo", phoneVo);
 		
-		return "/WEB-INF/views/modifyForm.jsp";
+		return "modifyForm";
 		
 	}
 	
@@ -52,8 +54,8 @@ public class PhoneController {
 		System.out.println(phoneVo);
 		
 		//dao로 저장하기
-		PhoneDao phoneDao = new PhoneDao();
-		int count = phoneDao.personUpdate(phoneVo);
+		//PhoneDao phoneDao = new PhoneDao();
+		int count = phoneService.personUpdate(phoneVo);
 		System.out.println(count);
 		
 		return "redirect:/list";
@@ -62,16 +64,16 @@ public class PhoneController {
 	
 	//전화번호 삭제
 	@RequestMapping(value="/delete/{no}", method={RequestMethod.GET, RequestMethod.POST})
-	public String delete(@PathVariable("no") int num) {
+	public String delete(@PathVariable("no") int no) {
 		
 		System.out.println("PhoneController>delete()");
 		
 		//파라미터 꺼내기
-		System.out.println(num);
+		System.out.println(no);
 		
 		//dao로 처리하기(삭제)
-		PhoneDao phoneDao = new PhoneDao();
-		int count = phoneDao.personDelete(num);
+		//PhoneDao phoneDao = new PhoneDao();
+		int count = phoneService.personDelete(no);
 		System.out.println(count);
 		
 		return "redirect:/list";
@@ -80,16 +82,16 @@ public class PhoneController {
 	
 	//전화번호 삭제
 	@RequestMapping(value="/delete2", method={RequestMethod.GET, RequestMethod.POST})
-	public String delete2(@RequestParam("no") int no) {
+	public String delete2(@RequestParam("no") int num) {
 		
 		System.out.println("PhoneController>delete()");
 		
 		//파라미터 꺼내기
-		System.out.println(no);
+		System.out.println(num);
 		
 		//dao로 처리하기(삭제)
-		PhoneDao phoneDao = new PhoneDao();
-		int count = phoneDao.personDelete(no);
+		//PhoneDao phoneDao = new PhoneDao();
+		int count = phoneService.personDelete(num);
 		System.out.println(count);
 		
 		return "redirect:/list";
@@ -102,14 +104,14 @@ public class PhoneController {
 		
 		System.out.println("PhoneController>list()");
 		
-		//dao를 통해서 phonelist(주소)를 가져온다
-		PhoneDao phoneDao = new PhoneDao();
-		List<PhoneVo> phoneList = phoneDao.getPersonList();
+		//service를 통해서 phonelist(주소)를 가져온다
+		//PhoneDao phoneDao = new PhoneDao();
+		List<PhoneVo> phoneList = phoneService.getPersonList();
 		
 		//ds 데이터 보내기 --> request attribute에 넣는다
 		model.addAttribute("phoneList", phoneList);
 		
-		return "/WEB-INF/views/list.jsp";
+		return "list";
 		
 	}
 	
@@ -119,7 +121,7 @@ public class PhoneController {
 		
 		System.out.println("PhoneController>writeForm()");
 		
-		return "/WEB-INF/views/writeForm.jsp";
+		return "writeForm";
 		
 	}
 	
@@ -142,9 +144,9 @@ public class PhoneController {
 		
 		System.out.println(phoneVo);
 		
-		//dao로 저장하기
-		PhoneDao phoneDao = new PhoneDao();
-		int count = phoneDao.personInsert(phoneVo);
+		//service로 저장하기
+		//PhoneDao phoneDao = new PhoneDao();
+		int count = phoneService.personInsert(phoneVo);
 		System.out.println(count);
 		
 		return "redirect:/list";
@@ -170,8 +172,8 @@ public class PhoneController {
 		System.out.println(phoneVo);
 		
 		//dao로 저장하기
-		PhoneDao phoneDao = new PhoneDao();
-		int count = phoneDao.personInsert(phoneVo);
+		//PhoneDao phoneDao = new PhoneDao();
+		int count = phoneService.personInsert(phoneVo);
 		System.out.println(count);
 		
 		return "redirect:http://localhost:8088/phonebook3/list";
@@ -185,7 +187,7 @@ public class PhoneController {
 		System.out.println("PhoneController>test()");
 		
 		//다오
-		return "/WEB-INF/views/test.jsp";
+		return "test";
 		
 	}
 	
